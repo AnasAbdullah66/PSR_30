@@ -3,6 +3,12 @@
     ViewData["Title"] = "Create";
 }
 
+@if (ViewData["Error"] != null)
+{
+    <div class="text-danger">
+        @ViewData["Error"]
+    </div>
+}
 
 <div class="shadow">
     <div class="d-flex justify-content-center">

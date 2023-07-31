@@ -1,4 +1,4 @@
-﻿@model PSR_Add_Document.Models.Models.CustomerUserLogin
+﻿@model PSR_Add_Document.Models.Models.BranchUserLogin
 
 @{
     ViewData["Title"] = "Registration";
@@ -16,15 +16,15 @@ s
                         <div class="col-md-6 mb-1">
                             <div class="form-outline">
                                 <label>User Name:</label>
-                                <input type="text" class="form-control" />
+                                <input type="text" asp-for="UserName" class="form-control" />
                                 <span asp-validation-for="UserName" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-md-6 mb-1">
                             <div class="form-outline">
-                                <label>Branch ID:</label>
-                                <input type="text" class="form-control" />
-                                <span asp-validation-for="BranchID" class="text-danger"></span>
+                                <label>Password:</label>
+                                <input type="password" asp-for="Password" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
@@ -33,7 +33,7 @@ s
                         <div class="col-md-6 mb-1">
                             <div class="form-outline">
                                 <label>Department:</label>
-                                <input type="text" class="form-control" />
+                                <input type="text" asp-for="Department" class="form-control" />
                                 <span asp-validation-for="Department" class="text-danger"></span>
                             </div>
                         </div>
@@ -41,7 +41,7 @@ s
                         <div class="col-md-6 mb-1">
                             <div class="form-outline">
                                 <label>ContactNo:</label>
-                                <input type="text" class="form-control" />
+                                <input type="text" asp-for="ContactNo" class="form-control" />
                                 <span asp-validation-for="ContactNo" class="text-danger"></span>
                             </div>
                         </div>
@@ -51,19 +51,16 @@ s
                         <div class="col-md-6 mt-2">
                             <div class="form-outline">
                                 <label>UserRole:</label>
-                                <select class="select">
+                                <select class="select" asp-for="RoleID" asp-items="ViewBag.RolesList">
                                     <option value="1" disabled>Choose option</option>
-                                    <option value="2">Subject 1</option>
-                                    <option value="3">Subject 2</option>
-                                    <option value="4">Subject 3</option>
                                 </select>
-                                <span asp-validation-for="UserRole" class="text-danger"></span>
+                                <span asp-validation-for="RoleID" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-md-6 mb-1">
                             <div class="form-outline">
                                 <label>User Status:</label>
-                                <input type="text" class="form-control" />
+                                <input type="text" asp-for="UserStatus" class="form-control" />
                                 <span asp-validation-for="UserStatus" class="text-danger"></span>
                             </div>
                         </div>
@@ -73,14 +70,14 @@ s
                         <div class="col-md-6 mb-1">
                             <div class="form-outline">
                                 <label>Login ID:</label>
-                                <input type="text" class="form-control" />
+                                <input type="text" asp-for="LoginID" class="form-control" />
                                 <span asp-validation-for="LoginID" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-md-6 mb-1">
                             <div class="form-outline">
                                 <label>Login Status:</label>
-                                <input type="text" class="form-control" />
+                                <input type="text" asp-for="LoginStatus" class="form-control" />
                                 <span asp-validation-for="LoginStatus" class="text-danger"></span>
                             </div>
                         </div>
@@ -88,16 +85,16 @@ s
 
                     <div class="row">
                         <div class="col-md-6 mb-1">
-                            <div class="form-outline">
+                            @*<div class="form-outline">
                                 <label>Entry Date:</label>
-                                <input type="date" class="form-control" />
+                                <input type="date" asp-for="EntryDate" class="form-control" />
                                 <span asp-validation-for="EntryDate" class="text-danger"></span>
-                            </div>
+                            </div>*@
                         </div>
                         <div class="col-md-6 mb-1">
                             <div class="form-outline">
                                 <label>Email:</label>
-                                <input type="text" class="form-control" />
+                                <input type="email" asp-for="Email" class="form-control" />
                                 <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
                         </div>
@@ -105,18 +102,25 @@ s
 
 
                     <div class="row">
-                        <div class="col-md-6 mt-3">
+                        <div class="col-md-6 mb-1">
                             <div class="form-outline">
-                                <label>Active:</label>
-                                <input type="checkbox"/>
-                                <input type="checkbox"  />
-                                <span asp-validation-for="Active" class="text-danger"></span>
+                                <label>Branch ID:</label>
+                                <input type="text" asp-for="BranchID" class="form-control" />
+                                <span asp-validation-for="BranchID" class="text-danger"></span>
                             </div>
                         </div>
+
+                        @*<div class="col-md-6 mt-3">
+                            <div class="form-outline">
+                                <label>Active:</label>
+                                <input type="checkbox" asp-for="Active" />
+                                <span asp-validation-for="Active" class="text-danger"></span>
+                            </div>
+                        </div>*@
                     </div>
 
                     <div class="mt-4 pt-2">
-                        <input class="btn btn-primary btn-sm" type="submit" value="Submit" />
+                        <input class="btn btn-primary btn-sm" asp-action="Registration" type="submit" value="Submit" />
                     </div>
 
                 </form>

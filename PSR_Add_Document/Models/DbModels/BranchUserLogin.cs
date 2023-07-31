@@ -25,7 +25,7 @@ namespace PSR_Add_Document.Models.Models
         public string? ContactNo { get; set; }
 
         [ForeignKey("Role")]
-        public int? UserRole { get; set; }
+        public int? RoleID { get; set; }
 
         public string? UserStatus { get; set; }
 

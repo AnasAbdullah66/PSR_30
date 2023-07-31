@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PSR_Add_Document.Migrations
 {
-    public partial class PSR : Migration
+    public partial class psr : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -160,7 +160,7 @@ namespace PSR_Add_Document.Migrations
                     BranchID = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Department = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ContactNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserRole = table.Column<int>(type: "int", nullable: true),
+                    RoleID = table.Column<int>(type: "int", nullable: false),
                     UserStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LoginID = table.Column<int>(type: "int", nullable: true),
                     LoginStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -175,16 +175,17 @@ namespace PSR_Add_Document.Migrations
                 {
                     table.PrimaryKey("PK_branchUserLogins", x => x.UserID);
                     table.ForeignKey(
-                        name: "FK_branchUserLogins_Roles_UserRole",
-                        column: x => x.UserRole,
+                        name: "FK_branchUserLogins_Roles_RoleID",
+                        column: x => x.RoleID,
                         principalTable: "Roles",
-                        principalColumn: "RoleID");
+                        principalColumn: "RoleID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_branchUserLogins_UserRole",
+                name: "IX_branchUserLogins_RoleID",
                 table: "branchUserLogins",
-                column: "UserRole");
+                column: "RoleID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CustomerDocuments_CustomerId",

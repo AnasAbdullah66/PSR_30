@@ -200,20 +200,21 @@ namespace PSR_Add_Document.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<int?>("RoleID")
+                        .IsRequired()
+                        .HasColumnType("int");
+
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
-
-                    b.Property<int?>("UserRole")
-                        .HasColumnType("int");
 
                     b.Property<string>("UserStatus")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserID");
 
-                    b.HasIndex("UserRole");
+                    b.HasIndex("RoleID");
 
                     b.ToTable("branchUserLogins");
                 });
@@ -384,7 +385,9 @@ namespace PSR_Add_Document.Migrations
                 {
                     b.HasOne("PSR_Add_Document.Models.Models.Role", "Role")
                         .WithMany()
-                        .HasForeignKey("UserRole");
+                        .HasForeignKey("RoleID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Role");
                 });

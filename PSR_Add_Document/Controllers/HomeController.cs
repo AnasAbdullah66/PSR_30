@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using PSR_Add_Document.Models;
 using PSR_Add_Document.Models.GlobalClass;
 using PSR_Add_Document.Models.Models;
@@ -44,7 +45,7 @@ namespace PSR_Add_Document.Controllers
 
             if (user != null)
             {
-                return RedirectToAction("AddDocument", "Customers");
+                return RedirectToAction("Index", "Customers");
             }
             else
             {
@@ -52,6 +53,13 @@ namespace PSR_Add_Document.Controllers
                 //return RedirectToAction(nameof(Index));
                 return View();
             }
+        }
+
+        [HttpPost]
+        public IActionResult Logout()
+        {
+            
+            return RedirectToAction("Index");
         }
 
         //[HttpPost]
@@ -103,55 +111,51 @@ namespace PSR_Add_Document.Controllers
 
         public IActionResult Registration()
         {
+            var roles = _context.Roles.ToList();
+            ViewBag.RolesList = new SelectList(roles, "RoleID", "UserRole");
             return View();
         }
 
+        
         [HttpPost]
         public IActionResult Registration(CustomerUserLogin cuLogin)
         {
-            if (ModelState.IsValid)
-            {
+            var roles = _context.Roles.ToList();
+
+            //if (ModelState.IsValid)
+            //{
                 var cus = new CustomerUserLogin
                 {
                     UserName = cuLogin.UserName,
                     Password = cuLogin.Password,
                     BranchID = cuLogin.BranchID,
-                    Department=cuLogin.Department,
+                    Department = cuLogin.Department,
                     ContactNo = cuLogin.ContactNo,
-                    UserRole = cuLogin.UserRole,
+                    UserRole = Convert.ToInt32(Request.Form["UserRole"]), // Assuming the dropdown's name is "UserRole"
                     UserStatus = cuLogin.UserStatus,
                     LoginID = cuLogin.LoginID,
                     LoginStatus = cuLogin.LoginStatus,
                     IPAddress = GetIp(),
                     EntryDate = DateTime.Now,
                     EmpID = cuLogin.EmpID,
-                    LastLoginDate = DateTime.Now ,
-                    Active = cuLogin.Active,
+                    LastLoginDate = DateTime.Now,
+                    //Active = cuLogin.Active == true ? "yes" : "no",
                     Email = cuLogin.Email,
-
                 };
 
-                _context.CustomerUserLogins.Add(cuLogin);
+                _context.CustomerUserLogins.Add(cus);
                 _context.SaveChanges();
-                return RedirectToAction("Login", "Home");
-            }
+            ViewBag.RolesList = roles;
+            // Redirect to the login page after successful registration.
+            return View("Index");
+            //}
 
-            return View(cuLogin);
+            /*ViewBag.RolesList = roles;*/ // Pass roles list to the view in case of validation errors.
+            //return View(cuLogin);
         }
 
-        public IActionResult Register(CustomerUserLogin newUser)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.CustomerUserLogins.Add(newUser);
-                _context.SaveChanges();
 
-                return RedirectToAction("Login", "CustomerUser");
-            }
 
-            // If the ModelState is invalid, return back to the registration form to show validation errors.
-            return View(newUser);
-        }
 
         private string GetIp()
         {

@@ -26,11 +26,35 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSingleton<Config>();
 //---
 
+builder.Services.AddAuthentication("MyAuthScheme")
+    .AddCookie("MyAuthScheme", options =>
+    {
+        options.LoginPath = "/Home/Index"; // Specify the login page URL
+        options.LogoutPath = "/Home/Logout"; // Specify the logout page URL
+    });
+
+
+
+// Configure the HTTP request pipeline
+
+
+
 builder.Services.AddControllersWithViews();//login
 
 var app = builder.Build();
 
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+else
+{
+    app.UseExceptionHandler("/Home/Error");
+}
 
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
 
 
 
@@ -42,13 +66,6 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
 }
 app.UseStaticFiles();
-//HttpClient.DefaultProxy = new WebProxy(false);
-//< system.net >
-//    < defaultProxy enabled = "false" >
-//    </ defaultProxy >
-//  </ system.net >
-
-
 app.UseAuthentication();//=Authentication
 app.UseAuthorization();
 app.UseRouting();

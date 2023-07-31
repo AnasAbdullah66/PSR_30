@@ -52,7 +52,7 @@ namespace PSR_Add_Document.Controllers
 {
     public class CustomersController : Controller
     {
-        
+
         private readonly CustomerDbContext _context;
         private readonly IConfiguration _configuration;
         private IWebHostEnvironment environment;
@@ -348,6 +348,7 @@ namespace PSR_Add_Document.Controllers
 
                 DateTime now = DateTime.Now;
 
+
                 if ((now > getOPTManagerData.OtpCreateTime) && (now < getOPTManagerData.OtpLastingTime))
                 {
                     if (getOPTManagerData.OTP == objOtpManager.OTP)
@@ -369,39 +370,163 @@ namespace PSR_Add_Document.Controllers
             return View();
         }
 
+        //public IActionResult ReSendOtp()
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var getUserMobNo = HttpContext.Session.GetString(SessionMobileNumber);
+
+        //        var GetOPTManagerLastData = _context.OTPManage.
+        //                                    OrderByDescending(s => s.MobileNumber == getUserMobNo).
+        //                                    Select(b => new
+        //                                    {
+        //                                        b.OTPId,
+        //                                        b.OTP,
+
+        //                                        b.MobileNumber,
+        //                                        b.OtpCreateTime,
+        //                                        b.CustomerId,
+        //                                        b.OtpLastingTime,
+        //                                        b.AccountNumber
+        //                                    }).FirstOrDefault();
+
+        //        if (!string.IsNullOrEmpty(GetOPTManagerLastData.MobileNumber))
+        //        {
+        //            var getOTPId = GetOPTManagerLastData.OTPId;
+        //            var otpManage = _context.OTPManage.Find(getOTPId);
+        //            _context.OTPManage.Remove(otpManage);
+        //            _context.SaveChanges(); //Delete                                          
+
+        //        }
+
+
+
+        //        OTPManage otpData = new OTPManage();
+
+        //        otpData.OTP = GenerateOTP();
+        //        otpData.OtpCreateTime = DateTime.Now;
+        //        otpData.OtpLastingTime = DateTime.Now.AddMinutes(20);
+        //        otpData.MobileNumber = HttpContext.Session.GetString(SessionMobileNumber);
+        //        otpData.IPADDRESS = GetIp();
+        //        otpData.AccountNumber = HttpContext.Session.GetString(SessionAccountNo);
+        //        _context.OTPManage.Add(otpData);
+        //        _context.SaveChanges();
+
+        //        SendEmailToUser(otpData.OTP); //Send Otp To Mail
+
+
+        //        return RedirectToAction(nameof(ValidCheckOTP));
+
+        //        //==================
+
+        //        //var getUserMobNo = HttpContext.Session.GetString(SessionMobileNumber);
+        //        //var getOTPCountByMobNo = _context.OTPManage.Where(x => x.AccountNumber == getUserMobNo).ToList();
+
+        //        //int countOTPByMobNo = getOTPCountByMobNo.Count();
+        //        //DateTime now = DateTime.Now;
+
+
+        //        //          var GetOPTManagerLastData = _context.OTPManage.
+        //        //OrderByDescending(s => s.MobileNumber == getUserMobNo).
+        //        //Select(b => new
+        //        //{
+        //        //    OTPId = b.OTPId,
+        //        //    OTP = b.OTP,
+        //        //    LasOtpCreateTimetName = b.OtpCreateTime,
+        //        //    CustomerId = b.CustomerId,
+        //        //    OtpLastingTime = b.OtpLastingTime,
+        //        //    IPADDRESS = b.IPADDRESS,
+        //        //    AccountNumber = b.AccountNumber
+        //        //}).FirstOrDefault();
+
+        //        //if (countOTPByMobNo== 2)
+        //        //{
+        //        //    OTPManage otpData = new OTPManage();
+
+        //        //    otpData.OTP = GenerateOTP();
+        //        //    otpData.OtpCreateTime = DateTime.Now;
+        //        //    otpData.OtpLastingTime = DateTime.Now.AddMinutes(20);
+        //        //    otpData.MobileNumber = HttpContext.Session.GetString(SessionMobileNumber);
+        //        //    otpData.IPADDRESS = GetIp();
+        //        //    otpData.AccountNumber = HttpContext.Session.GetString(SessionAccountNo);
+        //        //    _context.OTPManage.Add(otpData);
+        //        //    _context.SaveChanges();
+
+        //        //    SendEmailToUser(otpData.OTP); //Send Otp To Mail
+
+        //        //    return RedirectToAction(nameof(ValidCheckOTP));
+        //        //}
+        //        //else if (countOTPByMobNo == 3)
+        //        //{
+        //        //    OTPManage otpData = new OTPManage();
+
+        //        //    otpData.OTP = GenerateOTP();
+        //        //    otpData.OtpCreateTime = DateTime.Now;
+        //        //    otpData.OtpLastingTime = DateTime.Now.AddMinutes(20);
+        //        //    otpData.MobileNumber = HttpContext.Session.GetString(SessionMobileNumber);
+        //        //    otpData.IPADDRESS = GetIp();
+        //        //    otpData.AccountNumber = HttpContext.Session.GetString(SessionAccountNo);
+        //        //    _context.OTPManage.Add(otpData);
+        //        //    _context.SaveChanges();
+
+        //        //    SendEmailToUser(otpData.OTP); //Send Otp To Mail
+
+        //        //    return RedirectToAction(nameof(ValidCheckOTP));
+        //        //}
+        //        //else
+        //        //{
+        //        //    ModelState.AddModelError("OTP", "Please Wait 20 min for Next OTP.");
+        //        //}
+
+        //    }
+
+        //    return View();
+
+        //}
+
         public IActionResult ReSendOtp()
         {
             if (ModelState.IsValid)
             {
                 var getUserMobNo = HttpContext.Session.GetString(SessionMobileNumber);
 
-                var GetOPTManagerLastData = _context.OTPManage.
-                                            OrderByDescending(s => s.MobileNumber == getUserMobNo).
-                                            Select(b => new
-                                            {
-                                                b.OTPId,
-                                                b.OTP,
+                // Get the session variable for the number of OTP resends
+                var otpResendCount = HttpContext.Session.GetInt32("OtpResendCount") ?? 0;
 
-                                                b.MobileNumber,
-                                                b.OtpCreateTime,
-                                                b.CustomerId,
-                                                b.OtpLastingTime,
-                                                b.AccountNumber
-                                            }).FirstOrDefault();
+                if (otpResendCount >= 3)
+                {
+                    // If OTP has been resent three times in a row, check the time elapsed
+                    var lastOtpResendTime = HttpContext.Session.GetString("LastOtpResendTime");
 
-                if (!string.IsNullOrEmpty(GetOPTManagerLastData.MobileNumber))
+                    if (!string.IsNullOrEmpty(lastOtpResendTime))
+                    {
+                        DateTime lastResendTime = DateTime.Parse(lastOtpResendTime);
+                        DateTime currentTime = DateTime.Now;
+
+                        // If less than 30 minutes have passed since the last resend, display an error message
+                        if (currentTime.Subtract(lastResendTime).TotalMinutes < 30)
+                        {
+                            ViewData["Error"] = "You have exceeded the maximum number of OTP resends. Please try again after 30 minutes.";
+                            return View(nameof(ValidCheckOTP));
+                        }
+                    }
+                }
+
+                // Remove the previous OTP data (if any)
+                var GetOPTManagerLastData = _context.OTPManage
+                    .Where(x => x.MobileNumber == getUserMobNo)
+                    .FirstOrDefault();
+
+                if (GetOPTManagerLastData != null)
                 {
                     var getOTPId = GetOPTManagerLastData.OTPId;
                     var otpManage = _context.OTPManage.Find(getOTPId);
                     _context.OTPManage.Remove(otpManage);
-                    _context.SaveChanges(); //Delete                                          
-
+                    _context.SaveChanges();
                 }
 
-
-
+                // Generate and save new OTP data
                 OTPManage otpData = new OTPManage();
-
                 otpData.OTP = GenerateOTP();
                 otpData.OtpCreateTime = DateTime.Now;
                 otpData.OtpLastingTime = DateTime.Now.AddMinutes(20);
@@ -411,76 +536,18 @@ namespace PSR_Add_Document.Controllers
                 _context.OTPManage.Add(otpData);
                 _context.SaveChanges();
 
-                SendEmailToUser(otpData.OTP); //Send Otp To Mail
+                SendEmailToUser(otpData.OTP); //Send OTP to Mail
+
+                // Update session variables for OTP resend count and last resend time
+                HttpContext.Session.SetInt32("OtpResendCount", otpResendCount + 1);
+                HttpContext.Session.SetString("LastOtpResendTime", DateTime.Now.ToString());
 
                 return RedirectToAction(nameof(ValidCheckOTP));
-
-
-
-                //var getUserMobNo = HttpContext.Session.GetString(SessionMobileNumber);
-                //var getOTPCountByMobNo = _context.OTPManage.Where(x => x.AccountNumber == getUserMobNo).ToList();
-
-                //int countOTPByMobNo = getOTPCountByMobNo.Count();
-                //DateTime now = DateTime.Now;
-
-
-                //          var GetOPTManagerLastData = _context.OTPManage.
-                //OrderByDescending(s => s.MobileNumber == getUserMobNo).
-                //Select(b => new
-                //{
-                //    OTPId = b.OTPId,
-                //    OTP = b.OTP,
-                //    LasOtpCreateTimetName = b.OtpCreateTime,
-                //    CustomerId = b.CustomerId,
-                //    OtpLastingTime = b.OtpLastingTime,
-                //    IPADDRESS = b.IPADDRESS,
-                //    AccountNumber = b.AccountNumber
-                //}).FirstOrDefault();
-
-                //if (countOTPByMobNo== 2)
-                //{
-                //    OTPManage otpData = new OTPManage();
-
-                //    otpData.OTP = GenerateOTP();
-                //    otpData.OtpCreateTime = DateTime.Now;
-                //    otpData.OtpLastingTime = DateTime.Now.AddMinutes(20);
-                //    otpData.MobileNumber = HttpContext.Session.GetString(SessionMobileNumber);
-                //    otpData.IPADDRESS = GetIp();
-                //    otpData.AccountNumber = HttpContext.Session.GetString(SessionAccountNo);
-                //    _context.OTPManage.Add(otpData);
-                //    _context.SaveChanges();
-
-                //    SendEmailToUser(otpData.OTP); //Send Otp To Mail
-
-                //    return RedirectToAction(nameof(ValidCheckOTP));
-                //}
-                //else if (countOTPByMobNo == 3)
-                //{
-                //    OTPManage otpData = new OTPManage();
-
-                //    otpData.OTP = GenerateOTP();
-                //    otpData.OtpCreateTime = DateTime.Now;
-                //    otpData.OtpLastingTime = DateTime.Now.AddMinutes(20);
-                //    otpData.MobileNumber = HttpContext.Session.GetString(SessionMobileNumber);
-                //    otpData.IPADDRESS = GetIp();
-                //    otpData.AccountNumber = HttpContext.Session.GetString(SessionAccountNo);
-                //    _context.OTPManage.Add(otpData);
-                //    _context.SaveChanges();
-
-                //    SendEmailToUser(otpData.OTP); //Send Otp To Mail
-
-                //    return RedirectToAction(nameof(ValidCheckOTP));
-                //}
-                //else
-                //{
-                //    ModelState.AddModelError("OTP", "Please Wait 20 min for Next OTP.");
-                //}
-
             }
 
             return View();
-
         }
+
 
         public void SendEmailToUser(string sendOTP)
         {
@@ -677,7 +744,7 @@ namespace PSR_Add_Document.Controllers
             }
         }
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult ViewDocuments(string searchString, DateTime? fromDate, DateTime? toDate, string sortColumn, string sortDirection, int page = 1)
         {
             int pageSize = 20; // Number of items per page
@@ -920,7 +987,7 @@ namespace PSR_Add_Document.Controllers
             {
                 smtp.Host = host;
                 smtp.Port = Convert.ToInt32(port);
-                smtp.Send(Mail);    
+                smtp.Send(Mail);
                 Mail.Dispose();
             }
             catch (Exception ex)
@@ -1051,20 +1118,139 @@ namespace PSR_Add_Document.Controllers
 
 
 
-        [HttpPost]
+        //[HttpPost]
+        //public IActionResult Export()
+        //{
+        //    using (XLWorkbook wb = new XLWorkbook())
+        //    {
+        //        DataTable dt = this.GetCustomers().Tables[0];
+        //        wb.Worksheets.Add(dt);
+        //        using (MemoryStream stream = new MemoryStream())
+        //        {
+        //            wb.SaveAs(stream);
+        //            return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Grid.xlsx");
+        //        }
+        //    }
+        //}
+
+
+        // Other using statements...
+
         public IActionResult Export()
         {
+            DataSet ds = new DataSet();
+
+            // Get data from Customers table and convert to DataTable
+            DataTable customerTable = new DataTable("Customers");
+            customerTable.Columns.Add("CustomerId", typeof(int));
+            customerTable.Columns.Add("CustomerName", typeof(string));
+            customerTable.Columns.Add("AccountNumber", typeof(string));
+            customerTable.Columns.Add("Address", typeof(string));
+            customerTable.Columns.Add("MobileNumber", typeof(string));
+            customerTable.Columns.Add("TinNumber", typeof(string));
+            customerTable.Columns.Add("Gender", typeof(int));
+            customerTable.Columns.Add("Brn", typeof(string));
+            customerTable.Columns.Add("Email", typeof(string));
+            customerTable.Columns.Add("DOB", typeof(DateTime));
+
+            // Fetch customer data and add rows to the DataTable
+            List<Customer> customers = _context.Customers.ToList(); // Implement this method to fetch data from the Customers table
+            foreach (var customer in customers)
+            {
+                customerTable.Rows.Add(
+                    customer.CustomerId,
+                    customer.CustomerName,
+                    customer.AccountNumber,
+                    customer.Address,
+                    customer.MobileNumber,
+                    customer.TinNumber,
+                    customer.Gender,
+                    customer.Brn,
+                    customer.Email,
+                    customer.DOB
+                );
+            }
+
+            // Get data from CustomerDocuments table and convert to DataTable
+            DataTable customerDocumentTable = new DataTable("CustomerDocuments");
+            customerDocumentTable.Columns.Add("CustomerDocumentId", typeof(int));
+            customerDocumentTable.Columns.Add("CustomerId", typeof(int));
+            customerDocumentTable.Columns.Add("CustomerName", typeof(string));
+            customerDocumentTable.Columns.Add("AccountNumber", typeof(string));
+            customerDocumentTable.Columns.Add("TinNumber", typeof(string));
+            customerDocumentTable.Columns.Add("AssesmentYear", typeof(int));
+            customerDocumentTable.Columns.Add("Document", typeof(string));
+            customerDocumentTable.Columns.Add("Reference", typeof(string));
+            customerDocumentTable.Columns.Add("RefNumber", typeof(string));
+            customerDocumentTable.Columns.Add("SubmissionDate", typeof(DateTime));
+            customerDocumentTable.Columns.Add("SubUser", typeof(string));
+            customerDocumentTable.Columns.Add("SubIP", typeof(string));
+            customerDocumentTable.Columns.Add("ProcessDate", typeof(DateTime));
+            customerDocumentTable.Columns.Add("ProcessUser", typeof(string));
+            customerDocumentTable.Columns.Add("ProcessIP", typeof(string));
+            customerDocumentTable.Columns.Add("Status", typeof(string));
+            customerDocumentTable.Columns.Add("Remark", typeof(string));
+            customerDocumentTable.Columns.Add("Location", typeof(string));
+            customerDocumentTable.Columns.Add("BF1", typeof(string));
+            customerDocumentTable.Columns.Add("BF2", typeof(string));
+            customerDocumentTable.Columns.Add("BF3", typeof(string));
+            customerDocumentTable.Columns.Add("BF4", typeof(string));
+            customerDocumentTable.Columns.Add("BF5", typeof(string));
+            customerDocumentTable.Columns.Add("BF6", typeof(string));
+
+            // Fetch customer document data and add rows to the DataTable
+            List<CustomerDocument> customerDocuments = _context.CustomerDocuments.ToList(); // Implement this method to fetch data from the CustomerDocuments table
+            foreach (var customerDocument in customerDocuments)
+            {
+                customerDocumentTable.Rows.Add(
+                    customerDocument.CustomerDocumentId,
+                    customerDocument.CustomerId,
+                    customerDocument.CustomerName,
+                    customerDocument.AccountNumber,
+                    customerDocument.TinNumber,
+                    customerDocument.AssesmentYear,
+                    customerDocument.Document,
+                    customerDocument.Reference,
+                    customerDocument.RefNumber,
+                    customerDocument.SubmissionDate,
+                    customerDocument.SubUser,
+                    customerDocument.SubIP,
+                    customerDocument.ProcessDate,
+                    customerDocument.ProcessUser,
+                    customerDocument.ProcessIP,
+                    customerDocument.Status,
+                    customerDocument.Remark,
+                    customerDocument.Location,
+                    customerDocument.BF1,
+                    customerDocument.BF2,
+                    customerDocument.BF3,
+                    customerDocument.BF4,
+                    customerDocument.BF5,
+                    customerDocument.BF6
+                );
+            }
+
+            // Add both DataTables to the DataSet
+            ds.Tables.Add(customerTable);
+            ds.Tables.Add(customerDocumentTable);
+
             using (XLWorkbook wb = new XLWorkbook())
             {
-                DataTable dt = this.GetCustomers().Tables[0];
-                wb.Worksheets.Add(dt);
+                // Add each DataTable as a worksheet to the workbook
+                foreach (DataTable dt in ds.Tables)
+                {
+                    wb.Worksheets.Add(dt);
+                }
+
                 using (MemoryStream stream = new MemoryStream())
                 {
-                    wb.SaveAs(stream);
+                    wb.SaveAs(stream); // Save the workbook to the memory stream
                     return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Grid.xlsx");
                 }
             }
         }
+
+
         //https://www.aspsnippets.com/Articles/Export-DataTable-DataSet-to-Excel-file-in-ASPNet-MVC.aspx
 
         private DataSet GetCustomers()

@@ -133,6 +133,21 @@
                 <button class="btn btn-outline-danger btn-sm" onclick="updateStatus(@document.CustomerDocumentId, 9)"><i class="fa fa-xmark"></i></button>
 
                     </td>
+
+                    @*@if (User.Identity.IsAuthenticated)
+                    {
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <td>
+                                <button class="btn btn-outline-success btn-sm" onclick="updateStatus(@document.CustomerDocumentId, 1)">
+                                    <i class="fa fa-check"></i>
+                                </button>
+                                <button class="btn btn-outline-danger btn-sm" onclick="updateStatus(@document.CustomerDocumentId, 9)">
+                                    <i class="fa fa-xmark"></i>
+                                </button>
+                            </td>
+                        }
+                    }*@
                 </tr>
             }
         </tbody>
