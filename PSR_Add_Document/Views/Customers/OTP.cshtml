@@ -1,0 +1,88 @@
+﻿@model PSR_Add_Document.ViewModel.VMOTPManage
+@{
+    ViewData["Title"] = "OTP";
+}
+
+<html lang="en">
+
+<body>
+    <div class="container">
+        <header>
+            <i class="bx bxs-check-shield"></i>
+        </header>
+   
+
+
+        <div class="shadow">
+            <div class="d-flex justify-content-center">
+                <h4>Enter OTP Code</h4>
+            </div>
+            <hr />
+            <div class="d-flex justify-content-center">
+                <form action="OTP" class="form-floating">    
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-md-4 label-control">Branch Name</label>
+
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.OTP, new { htmlAttributes = new { @class = "form-control input-sm"} })
+                         @*       @Html.ValidationMessageFor(model => model.BranchName, "", new { @class = "text-danger" })*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mt-3">
+                        <button class="btn btn-primary" asp-action="Login">Resend OTP</button>
+                        <button class="btn btn-secondary" type="submit" asp-action="OTP"> OTP</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+<script>
+    var generatedOTP = generateOTP(); // Generate OTP using the generateOTP() function
+
+    function verifyOTP() {
+        var enteredOTP = document.getElementById('otpInput').value;
+        if (enteredOTP === generatedOTP) {
+            alert('OTP verification successful!');
+        } else {
+            alert('Incorrect OTP. Please try again.');
+        }
+    }
+
+    function resendOTP() {
+        generatedOTP = generateOTP(); // Generate a new OTP
+        alert('New OTP sent.');
+    }
+
+    function submitOTP() {
+        var enteredOTP = document.getElementById('otpInput').value;
+        if (enteredOTP === generatedOTP) {
+            alert('OTP verification successful! Submitting the form...');
+            // Submit the form or perform any additional actions
+        } else {
+            alert('Incorrect OTP. Please try again.');
+        }
+    }
+
+    function generateOTP() {
+        var digits = '0123456789';
+        var otp = '';
+        for (var i = 0; i < 4; i++) {
+            otp += digits[Math.floor(Math.random() * 10)];
+        }
+        return otp;
+    }
+</script>
+
+@*<script type="text/javascript">
+
+    function OtpCheck() {
+    }
+
+</script>*@
+

@@ -1,0 +1,47 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>SessionYearError</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PSR_Add_Document</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/PSR_Add_Document.styles.css" asp-append-version="true" />
+    <link href="~/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="~/font-awesome/css/all.min.css" rel="stylesheet" />
+
+
+</head>
+<body>
+    <div class="vh-100 d-flex justify-content-center align-items-center">
+        <div class="col-md-4">
+            <div class="border border-3 border-success"></div>
+            <div class="card  bg-white shadow p-5">
+                <div class="mb-4 text-center">
+                    <svg class="text-danger" width="75" height="75"
+                         fill="currentColor" viewBox="0 0 16 16">
+
+                        @* <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />*@
+
+                    </svg>
+                    <h1 class="fw-bolder text-danger">Failed! </h1>
+                </div>
+                <div class="text-center">
+                    <h4>Document upload failed</h4>
+                    <p>Document for the selected session year already exist. </p>
+                    <a href="https://www.nrbbankbd.com/" class="btn btn-outline-success">Back Home</a>
+                    @*<button class="btn btn-success" asp-action="AddDocument">Add Document</button>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

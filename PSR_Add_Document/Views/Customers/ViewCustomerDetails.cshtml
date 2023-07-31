@@ -1,0 +1,119 @@
+﻿@model PSR_Add_Document.ViewModel.VMCustomerDetails
+@{
+    ViewData["Title"] = "View Customer Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    bool IsImageFile(string documentPath)
+    {
+        string[] imageExtensions = { ".jpg", ".jpeg", ".png", ".gif" }; // Add more image file extensions if needed
+        string fileExtension = System.IO.Path.GetExtension(documentPath).ToLower();
+        return imageExtensions.Contains(fileExtension);
+    }
+
+    bool IsPdfFile(string documentPath)
+    {
+        string[] pdfExtensions = { ".pdf" }; // Add more PDF file extensions if needed
+        string fileExtension = System.IO.Path.GetExtension(documentPath).ToLower();
+        return pdfExtensions.Contains(fileExtension);
+    }
+}
+
+<h1>View Customer Details</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h4>Customer Information</h4>
+                </div>
+                <div class="card-body">
+                    <p><strong>Customer ID:</strong> @Model.CustomerId</p>
+                    <p><strong>Customer Name:</strong> @Model.CustomerName</p>
+                    <p><strong>Account Number:</strong> @Model.AccountNumber</p>
+                    <p><strong>Address:</strong> @Model.Address</p>
+                    <p><strong>Mobile Number:</strong> @Model.MobileNumber</p>
+                    <p><strong>TIN Number:</strong> @Model.TinNumber</p>
+                    <p><strong>Gender:</strong> @(Model.Gender == 1 ? "Male" : "Female")</p>
+                    <p><strong>BRN:</strong> @Model.Brn</p>
+                    <p><strong>Email:</strong> @Model.Email</p>
+                    <p><strong>Date of Birth:</strong> @Model.DOB.ToString("dd-MM-yyyy")</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h4>Document Information</h4>
+                </div>
+                <div class="card-body">
+                    <p>
+                        <strong>Assessment Year:</strong>
+
+
+                        @{
+                            string assesmentYear = string.Empty;
+                            switch (Model.AssesmentYear)
+                            {
+                                case 1:
+                                    assesmentYear = "2020-21";
+                                    break;
+                                case 2:
+                                    assesmentYear = "2021-22";
+                                    break;
+                                case 3:
+                                    assesmentYear = "2022-23";
+                                    break;
+                                case 4:
+                                    assesmentYear = "2024-25<";
+                                    break;
+                                default:
+                                    assesmentYear = "Unknown";
+                                    break;
+                            }
+                        }
+                        @assesmentYear
+
+                    </p>
+                    <div class="mb-3">
+                        <strong>Document:</strong><br />
+                        @if (!string.IsNullOrEmpty(Model.DocumentPath))
+                        {
+                            @if (IsImageFile(Model.DocumentPath))
+                            {
+                                <img src="@Url.Content("~/" + Model.DocumentPath)" width="100" height="50" alt="Photo of @Model.CustomerName" width="100" />
+                            }
+                            else if (IsPdfFile(Model.DocumentPath))
+                            {
+                                @*<iframe src="@Model.DocumentPath" width="100" height="50"></iframe>*@
+                                <iframe src="@Url.Content("~/" + Model.DocumentPath)" width="100" height="50"></iframe>
+
+                            }
+                            <a href="@Url.Content("~/" + Model.DocumentPath)"><i class="fa fa-arrow-right-from-file"></i></a>
+                        }
+                        
+                    </div>
+                    <p><strong>Reference:</strong> @Model.Reference</p>
+                    <p><strong>Reference Number:</strong> @Model.RefNumber</p>
+                    <p><strong>Submission Date:</strong> @Model.SubmissionDate?.ToString("dd-MM-yyyy")</p>
+                    <p><strong>Submitted By:</strong> @Model.SubUser</p>
+                    <p><strong>Submission IP:</strong> @Model.SubIP</p>
+                    <p><strong>Process Date:</strong> @Model.ProcessDate?.ToString("dd-MM-yyyy")</p>
+                    <p><strong>Processed By:</strong> @Model.ProcessUser</p>
+                    <p><strong>Process IP:</strong> @Model.ProcessIP</p>
+                    <p><strong>Status:</strong> @Model.Status</p>
+                    <p><strong>Remark:</strong> @Model.Remark</p>
+                    <p><strong>Location:</strong> @Model.Location</p>
+                    <p><strong>BF1:</strong> @Model.BF1</p>
+                    <p><strong>BF2:</strong> @Model.BF2</p>
+                    <p><strong>BF3:</strong> @Model.BF3</p>
+                    <p><strong>BF4:</strong> @Model.BF4</p>
+                    <p><strong>BF5:</strong> @Model.BF5</p>
+                    <p><strong>BF6:</strong> @Model.BF6</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

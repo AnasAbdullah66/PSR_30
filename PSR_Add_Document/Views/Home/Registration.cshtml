@@ -1,0 +1,126 @@
+﻿@model PSR_Add_Document.Models.Models.CustomerUserLogin
+
+@{
+    ViewData["Title"] = "Registration";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+s
+<section class="vh-100 gradient-custom">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-9 ">
+                <h3 class="d-flex justify-content-center">Registration Form</h3>
+                <form asp-action="Register" method="post">
+
+                    <div class="row">
+                        <div class="col-md-6 mb-1">
+                            <div class="form-outline">
+                                <label>User Name:</label>
+                                <input type="text" class="form-control" />
+                                <span asp-validation-for="UserName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-1">
+                            <div class="form-outline">
+                                <label>Branch ID:</label>
+                                <input type="text" class="form-control" />
+                                <span asp-validation-for="BranchID" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-1">
+                            <div class="form-outline">
+                                <label>Department:</label>
+                                <input type="text" class="form-control" />
+                                <span asp-validation-for="Department" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-1">
+                            <div class="form-outline">
+                                <label>ContactNo:</label>
+                                <input type="text" class="form-control" />
+                                <span asp-validation-for="ContactNo" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mt-2">
+                            <div class="form-outline">
+                                <label>UserRole:</label>
+                                <select class="select">
+                                    <option value="1" disabled>Choose option</option>
+                                    <option value="2">Subject 1</option>
+                                    <option value="3">Subject 2</option>
+                                    <option value="4">Subject 3</option>
+                                </select>
+                                <span asp-validation-for="UserRole" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-1">
+                            <div class="form-outline">
+                                <label>User Status:</label>
+                                <input type="text" class="form-control" />
+                                <span asp-validation-for="UserStatus" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-1">
+                            <div class="form-outline">
+                                <label>Login ID:</label>
+                                <input type="text" class="form-control" />
+                                <span asp-validation-for="LoginID" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-1">
+                            <div class="form-outline">
+                                <label>Login Status:</label>
+                                <input type="text" class="form-control" />
+                                <span asp-validation-for="LoginStatus" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-1">
+                            <div class="form-outline">
+                                <label>Entry Date:</label>
+                                <input type="date" class="form-control" />
+                                <span asp-validation-for="EntryDate" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-1">
+                            <div class="form-outline">
+                                <label>Email:</label>
+                                <input type="text" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-6 mt-3">
+                            <div class="form-outline">
+                                <label>Active:</label>
+                                <input type="checkbox"/>
+                                <input type="checkbox"  />
+                                <span asp-validation-for="Active" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-2">
+                        <input class="btn btn-primary btn-sm" type="submit" value="Submit" />
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

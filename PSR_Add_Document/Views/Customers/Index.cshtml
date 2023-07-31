@@ -1,0 +1,110 @@
+﻿@model IEnumerable<PSR_Add_Document.Models.Customer>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Index";
+}
+
+<h1>Customer Info</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary d-flex justify-content-end">Create New</a>
+</p>
+<table class="table table-bordered table-primary">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AccountNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MobileNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TinNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Brn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DOB)
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MobileNumber)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.Gender)
+            </td>*@
+                <td>
+                    @{
+                        string genderName = string.Empty;
+                        switch (item.Gender)
+                        {
+                            case 1:
+                                genderName = "Male";
+                                break;
+                            case 2:
+                                genderName = "Female";
+                                break;
+                            default:
+                                genderName = "Unknown";
+                                break;
+                        }
+                    }
+                    @genderName
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TinNumber)
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Brn)
+            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+            <td>
+                    @item.DOB.ToString("yyyy-MM-dd")
+            </td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.DOB.ToShortDateString())
+                </td>*@
+            <td>
+                @*<a asp-action="Edit" asp-route-id="@item.CustomerId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.CustomerId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.CustomerId">Delete</a>|*@
+                    <a asp-action="login" asp-route-id="@item.CustomerId" class="btn btn-info btn-sm"><i class="fa fa-file-arrow-up"></i></a>
+                    @*<a asp-action="VerifyOTP" asp-route-id="@item.CustomerId">Add Document</a>*@
+
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

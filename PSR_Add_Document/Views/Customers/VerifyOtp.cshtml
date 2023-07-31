@@ -1,0 +1,30 @@
+﻿@model PSR_Add_Document.Models.OtpVerificationOptions
+
+
+<h2>Verify OTP</h2>
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+}
+
+@if (ViewBag.SuccessMessage != null)
+{
+    <div class="alert alert-success">@ViewBag.SuccessMessage</div>
+}
+
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        <label for="MobileNumber">Mobile Number:</label>
+        <input type="text" id="MobileNumber" class="form-control" @*value="@Model.MobileNumber"*@ @*disabled*@ />
+    </div>
+
+    <div class="form-group">
+        <label for="OTP">OTP:</label>
+        <input type="text" id="OTP" class="form-control" name="OTP" />
+        @Html.ValidationMessageFor(m => m.OTP, "", new { @class = "text-danger" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Verify OTP</button>
+}

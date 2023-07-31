@@ -1,0 +1,106 @@
+﻿@model PSR_Add_Document.Models.VMCustomerDocument
+@{
+    ViewData["Title"] = "AddDocument";
+}
+
+@*@ViewBag.AccountNumber
+@ViewBag.CustomerName
+@ViewBag.CustomerId*@
+
+@{
+    var accountNumber = ViewBag.AccountNumber;
+    var customerName = ViewBag.CustomerName;
+    var customerId = ViewBag.CustomerId;
+}
+
+<h1 class="d-flex justify-content-center">Add Document</h1>
+
+<div class="row">
+    <div class="col-md-8 offset-2 shadow">
+        @if (!string.IsNullOrEmpty(TempData["SuccessMessage"] as string))
+        {
+            <div class="alert alert-success">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+        <form method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="CustomerId" />
+            <div class="form-group mt-2">
+                <label asp-for="CustomerName" class="fw-bolder"></label>
+                @Html.EditorFor(model => model.CustomerName, new { htmlAttributes = new { @class = "form-control input-sm", @value = customerName } })
+                <span asp-validation-for="CustomerName" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-2">
+                <label asp-for="AccountNumber" class="fw-bolder"></label>
+
+                @Html.EditorFor(model => model.AccountNumber, new { htmlAttributes = new { @class = "form-control input-sm", @value = accountNumber } })
+                <span asp-validation-for="AccountNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-2">
+                <label asp-for="TinNumber" class="fw-bolder"></label>
+                
+                <input asp-for="TinNumber" type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="12" class="form-control" />
+
+                @*maxlength="12" pattern="pattern=" .{10}|.{12}" required title="sdgsg"*@
+
+            </div>
+            <div class="form-group mt-2">
+                <label asp-for="AssesmentYear" class="control-label fw-bolder"></label>
+                <select asp-for="AssesmentYear" class="form-control">
+                    <option value="">Select Year</option>
+                    <option value="1">2020-21</option>
+                    <option value="2">2021-22</option>
+                    <option value="3">2022-23</option>
+                    <option value="4">2024-25</option>
+                </select>
+                <span asp-validation-for="AssesmentYear" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-2">
+                <div>
+                    <label asp-for="Document" class="fw-bolder"></label>
+
+                </div>
+                <div>
+                    <span class="text-sm-start fw-bolder" style="color:red;font-weight:400; font-size:x-small;" > File type- .pdf*,.jpg*,.png*,.gif*,.jpeg*. File size: pdf - 200kb,Image - 100kb  </span>
+                </div>
+
+                <input name="Document" type="file" class="form-control" accept=".pdf,.jpg,.png,.gif,.jpeg" />
+                <span asp-validation-for="Document" class="text-danger"></span>
+            </div>
+            @if (!string.IsNullOrEmpty(TempData["ErrorMessage"] as string))
+            {
+                <div class="alert alert-danger">
+                    @TempData["ErrorMessage"]
+                </div>
+            }
+            <div class="form-group mt-2">
+                <label asp-for="Reference" class="fw-bolder"></label>
+                <input asp-for="Reference" class="form-control" />
+            </div>
+            <div class="form-group mt-2">
+                <label asp-for="RefNumber" class="fw-bolder"></label>
+                <input asp-for="RefNumber" class="form-control" />
+            </div>
+            <div class="d-flex justify-content-center m-2">
+                <button type="submit" class="btn btn-primary btn-sm align-content-center">Add Document</button>
+
+            </div>
+        </form>
+
+    </div>
+
+</div>
+
+
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

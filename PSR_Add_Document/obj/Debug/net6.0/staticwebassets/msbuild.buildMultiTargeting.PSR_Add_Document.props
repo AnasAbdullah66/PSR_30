@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\PSR_Add_Document.props" />
+</Project>

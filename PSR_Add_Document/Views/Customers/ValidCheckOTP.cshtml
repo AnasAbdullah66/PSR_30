@@ -1,0 +1,43 @@
+﻿@model PSR_Add_Document.ViewModel.VMOTPManage
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<div class="shadow">
+    <div class="d-flex justify-content-center">
+        <h4>Enter OTP Code</h4>
+    </div>
+    <hr />
+
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-6">
+            <form asp-action="ValidCheckOTP" class="form-floating">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="OTP" class="control-label"></label>
+                    <input asp-for="OTP" class="form-control" />
+                  @*  <span asp-validation-for="OTP" class="text-danger"></span>*@
+
+                    @Html.ValidationMessageFor(x => x.OTP, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group d-flex justify-content-center m-2">
+                    <button class="btn btn-info" asp-action="ReSendOtp">Resend OTP</button>
+                    <input type="submit" value="ValidCheckOTP" class="btn btn-primary" />
+
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

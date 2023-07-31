@@ -1,0 +1,121 @@
+﻿@*@model PSR_Add_Document.Models.Customer*@
+
+
+@model PSR_Add_Document.ViewModel.VMCustomer
+
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Login";
+}
+
+
+
+<div class="shadow">
+    <h2 class="d-flex justify-content-center">Login</h2>
+    <hr />
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-6">
+            @* <form id="loginForm" asp-action="SendOtpEmail">*@
+            <form asp-action="SendOtpEmail">
+                <div>
+                    <div class="">
+                        <label asp-for="AccountNumber" class="control-label"></label>
+                        <input asp-for="AccountNumber" class="form-control" disabled />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="MobileNumber" class="control-label"></label>
+                    <div class="input-group">
+                        <input asp-for="MobileNumber" class="form-control" id="MobileNumber" readonly />
+
+                        <div class="input-group-append">
+                            <div class="input-group-text m-2">
+                         
+                                <input type="checkbox" class="switchBootstrap" id="switchBootstrap20" name="IsMobNo" value="1" data-on-color="success" />
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <div class="input-group">
+                        <input asp-for="Email" class="form-control" id="Email" readonly />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                        <div class="input-group-append">
+                            <div class="input-group-text m-2">
+
+                         
+                                <input type="checkbox" class="switchBootstrap" id="switchBootstrap20" name="IsEmail" value="2" data-on-color="success" />
+                                @*<input type="checkbox" id="IsEmail" onclick="handleCheckboxChange('Email')" />*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+              @*    ///  <label asp-for="OTP" class="control-label"></label>*@
+                    @*<input asp-for="ErrorShow" class="form-control" />*@
+                    <label class="text-danger">@TempData["ErrorShows"]</label>
+                </div>
+                <div class="form-group mt-3 d-flex justify-content-center mb-3">
+                  @*  <input type="submit" id="confirm" value="Confirm" onclick="" asp-action="SendOtpEmail" class="btn-outline-primary" />*@
+
+                    <input type="submit"   @*asp-action="SendOtpEmail"*@ class="btn-outline-primary" />
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    function handleCheckboxChange(checkboxName) {
+        const mobileCheckbox = document.getElementById('IsMobNo');
+        const emailCheckbox = document.getElementById('CheckBoxEmail');
+
+        // Disable both input fields
+        document.getElementById('IsMobNo').disabled = true;
+        document.getElementById('IsMobNo').disabled = true;
+
+        // Enable the selected input field
+        const selectedInput = document.getElementById(`${checkboxName}Input`);
+        selectedInput.disabled = false;
+
+        // Uncheck the other checkbox
+        if (checkboxName === 'MobileNumber') {
+            emailCheckbox.checked = false;
+        } else if (checkboxName === 'Email') {
+            mobileCheckbox.checked = false;
+        }
+    }
+
+        //function otpSendingFunction() {
+        //    const mobileCheckbox = document.getElementById('CheckBoxNumber');
+        //    const emailCheckbox = document.getElementById('CheckBoxEmail');
+
+        //    if (mobileCheckbox.checked) {
+
+        //        alert('Your OTP is sent to your mobile number.');
+
+
+        //    } else if (emailCheckbox.checked) {
+        //        // Call the email verification function
+        //        alert('Your OTP is sent to your email address.');
+        //        $.getJSON('/Controller/ShowSimple/', function (data) {
+        //            alert(data);
+        //    } else {
+        //        // No checkbox is selected
+        //        alert('Please select a verification method.');
+        //    }
+        }
+</script>
+
+
